@@ -1,0 +1,1 @@
+This is an example repository in C# / .NET Core to illustrate zero memory allocation when handling large objects.
