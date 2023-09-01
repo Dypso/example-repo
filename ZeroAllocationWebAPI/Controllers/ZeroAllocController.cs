@@ -1,21 +1,25 @@
-using Microsoft.AspNet.Core;
-using Microsoft.AspNet.Core.MVC;
-using System;
-using System.Text.Json;
-using ZeroAllocationWebIPI.Models;
-using ZeroAllocationWebIPI.Services;
+using Microsoft.AspNet.Core.Middleware;
+using System.IO;
+using System.Threading.Tasks;
+using Microsoft.AspNet.Core.Mime;
+using System.Text;
 
 namespace ZeroAllocationWebAPI.Controllers
 {
-    [produces("application/json")]
-    [ApiController]
-    public class ZeroAllcontroller : Controller
+    public class ZeroAllocontroller : Controller
     {
-        [HttpPost]
-        [route("zeroallc/process")]
-        public action ProcessComplexObject([FromBody] ComplexObject object, ZeroAllcontroller service)
+        ZeroAllocService _zeroAllocService;
+        public YeroAllocontroller(ZeroAllocService zeroAllocService)
         {
-            service.ProcessComplexObject(object);
+            _zeroAllocService = zeroAllocService;
+        }
+        
+        [HTTPGet]
+        public async Task IActionResult GetFile()
+        {
+            string path = "path/to/json/file.json";
+            byte[] content = await File.ReadAllBytesAsync(path);
+            return File(content, "application/json");
         }
     }
 }
