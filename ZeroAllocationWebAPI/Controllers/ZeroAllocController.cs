@@ -3,23 +3,27 @@ using System.IO;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Core.Mime;
 using System.Text;
+using Microsoft.AspNet.Core.Http;
 
 namespace ZeroAllocationWebAPI.Controllers
 {
     public class ZeroAllocontroller : Controller
     {
         ZeroAllocService _zeroAllocService;
-        public YeroAllocontroller(ZeroAllocService zeroAllocService)
+        public ZeroAllocontroller(ZeroAllocService zeroAllocService)
         {
             _zeroAllocService = zeroAllocService;
         }
         
-        [HTTPGet]
-        public async Task IActionResult GetFile()
+        [HTTPPost]
+        public async Task IActionResult UploadMultipartFiles(IFormFileCollection files)
         {
-            string path = "path/to/json/file.json";
-            byte[] content = await File.ReadAllBytesAsync(path);
-            return File(content, "application/json");
+            list<FileStream> resultFiles = new List<FileStream>();
+            foreach(var file in files)
+            {
+                resultFiles.Add(new FileStream(file.OpenRead(), file.Length, string.Empty));
+            }
+            return New MultipartResult(resultFiles);
         }
     }
 }
