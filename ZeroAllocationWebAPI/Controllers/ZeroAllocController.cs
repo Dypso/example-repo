@@ -2,8 +2,10 @@ using Microsoft.AspNet.Core;
 using Microsoft.AspNet.Core.MVC;
 using System;
 using System.Text.Json;
+using ZeroAllocationWebIPI.Models;
+using ZeroAllocationWebIPI.Services;
 
-namespace ZeroAllocationWebIPI.Controllers
+namespace ZeroAllocationWebAPI.Controllers
 {
     [produces("application/json")]
     [ApiController]
@@ -11,9 +13,9 @@ namespace ZeroAllocationWebIPI.Controllers
     {
         [HttpPost]
         [route("zeroallc/process")]
-        public action ProcessJsonObject([Object object])
+        public action ProcessComplexObject([FromBody] ComplexObject object, ZeroAllcontroller service)
         {
-            // To be implemented
+            service.ProcessComplexObject(object);
         }
     }
 }
